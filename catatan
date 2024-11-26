@@ -1,0 +1,132 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 21 Jul 2024 pada 13.52
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+-- Buat database `omah_ban`
+CREATE DATABASE IF NOT EXISTS `omah_ban` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `omah_ban`;
+
+-- --------------------------------------------------------
+
+-- Struktur dari tabel `audit_trail`
+CREATE TABLE `audit_trail` (
+  `id` int(11) NOT NULL,
+  `action` varchar(255) NOT NULL,
+  `item_type` varchar(255) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+-- Struktur dari tabel `harga`
+CREATE TABLE `harga` (
+  `id` int(11) NOT NULL,
+  `produk_id` int(11) NOT NULL,
+  `modal` decimal(10,2) NOT NULL,
+  `harga_jual` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- --------------------------------------------------------
+
+-- Struktur dari tabel `merek_ban`
+CREATE TABLE `merek_ban` (
+  `id` int(11) NOT NULL,
+  `nama_merek` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data untuk tabel `merek_ban`
+INSERT INTO `merek_ban` (`id`, `nama_merek`) VALUES
+(1, 'Achilles'),
+(2, 'Bridgestone'),
+(3, 'GT (Gajah Tunggal)'),
+(4, 'Dunlop'),
+(5, 'Truck Diesel'),
+(6, 'Ban Dalam'),
+(7, 'Acellera'),
+(8, 'HK & Delium'),
+(10, 'Campur');
+
+-- --------------------------------------------------------
+
+-- Struktur dari tabel `penjualan`
+CREATE TABLE `penjualan` (
+  `id` int(11) NOT NULL,
+  `produk_id` int(11) NOT NULL,
+  `tanggal` date NOT NULL,
+  `jumlah_terjual` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- --------------------------------------------------------
+
+-- Struktur dari tabel `produk_ban`
+CREATE TABLE `produk_ban` (
+  `id` int(11) NOT NULL,
+  `merek_id` int(11) NOT NULL,
+  `nama_produk` varchar(255) NOT NULL,
+  `ukuran` varchar(50) NOT NULL,
+  `ring` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+-- Struktur dari tabel `stok`
+CREATE TABLE `stok` (
+  `id` int(11) NOT NULL,
+  `produk_id` int(11) NOT NULL,
+  `jumlah_stok_awal` int(11) NOT NULL,
+  `jumlah_stok_sisa` int(11) NOT NULL,
+  `stok_minimum` int(11) NOT NULL DEFAULT 5
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- --------------------------------------------------------
+
+-- Indeks untuk tabel `audit_trail`
+ALTER TABLE `audit_trail`
+  ADD PRIMARY KEY (`id`);
+
+-- Indeks untuk tabel `harga`
+ALTER TABLE `harga`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `produk_id` (`produk_id`);
+
+-- Indeks untuk tabel `merek_ban`
+ALTER TABLE `merek_ban`
+  ADD PRIMARY KEY (`id`);
+
+-- Indeks untuk tabel `penjualan`
+ALTER TABLE `penjualan`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `produk_id` (`produk_id`);
+
+-- Indeks untuk tabel `produk_ban`
+ALTER TABLE `produk_ban`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `merek_id` (`merek_id`);
+
+-- Indeks untuk tabel `stok`
+ALTER TABLE `stok`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `produk_id` (`produk_id`);
+
+-- AUTO_INCREMENT untuk tabel yang dibuang
+
+-- AUTO_INCREMENT untuk tabel `audit_trail`
+ALTER TABLE `audit_trail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+-- AUTO_INCREMENT untuk tabel `harga`
+ALTER TABLE `harga`
+ 
